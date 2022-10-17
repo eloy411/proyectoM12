@@ -1,4 +1,0 @@
-Tabla:
-Preguntas: tema,string, respuesta correcta, respuestas incorrectas,pistas audio,pista img
-Usuario: nombre,id sesion, invidente o no,idioma
-

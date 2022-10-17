@@ -1,6 +1,6 @@
 class MainMenu {
     constructor(sonido){
-        
+
         this.sonido = sonido
         // this.socket = socket
         this.menu = document.createElement('div')
@@ -30,6 +30,7 @@ class MainMenu {
         this.SetAtributes();
         this.Render();
         this.Keydowns();
+        this.sonido.renderSound('pulsa F, para crear partida,o, Pulsa J, para unirte a una existente ')
     }
 
     SetAtributes(){
@@ -137,17 +138,10 @@ class MainMenu {
         this.info.appendChild(this.infor)
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
-        // this.createGame(this.socket)
+
     }
 
-    // renderWaiting(){
-    //    this.d2.removeChild(this.d2.children[0])
-    //    this.d3.removeChild(this.d3.children[0])
-    //    const text = document.createElement('h1')
-    //    text.innerText = 'WAITING FELLOW...'
-    //    text.style.color = 'white'
-    //    this.d2.appendChild(text)
-    // }
+  
    
         
     
