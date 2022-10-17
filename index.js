@@ -6,10 +6,11 @@ const path = require('path');
 const cors = require('cors')
 const {connection} = require('./socket.js')
 require('./config/database');
-const port= 8000
+
 
 /**CONFIG SOCKET */
 const app = express()
+app.set('port',process.env.PORT || 3001)
 const server = http.createServer(app)
 const io = socketIo(server)
 
@@ -38,6 +39,6 @@ connection(io)
 
 
 
-server.listen(port, () =>{ 
-    console.log(`servidor ejecutado en el puerto ${port} `)  
+server.listen(app.get('port'), () =>{ 
+    console.log(``)  
 })
