@@ -1,11 +1,12 @@
 class MainPersonaje {
-    constructor(){
+    constructor(sonido){
         this.c_personaje = document.createElement('div')
         this.personaje = document.createElement('img')
         this.numCasilla =0
         this.valorCasilla = 0
         this.casilla= {}
         this.trampa=0
+        this.sonido = sonido
         
     }
 

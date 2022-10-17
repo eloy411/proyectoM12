@@ -1,6 +1,7 @@
 class MainMenu {
-    constructor(){
+    constructor(sonido){
         
+        this.sonido = sonido
         // this.socket = socket
         this.menu = document.createElement('div')
         this.d1 = document.createElement('div')

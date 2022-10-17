@@ -1,5 +1,6 @@
 class MainWaitings {
-    constructor(){
+    constructor(sonido){
+        this.sonido = sonido
         this.waitScreen = document.createElement('div')
         this.textoPantalla = document.createElement('h1')
         this.dot1 = document.createElement('div')

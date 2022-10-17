@@ -1,5 +1,7 @@
 class Finales {
-    constructor() {
+
+    constructor(sonido) {
+        
         this.container = document.getElementById('container-father')
 
         this.endGame = document.createElement('div')
@@ -11,6 +13,7 @@ class Finales {
         this.mensajePantalla.id = 'mensaje-pantalla'
         this.mensajePantalla.classList.add('game-over-div')
         this.mensajePantallaText = document.createElement('h1')
+        this.sonido = sonido
 
     }
 

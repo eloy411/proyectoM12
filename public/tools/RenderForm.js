@@ -1,13 +1,7 @@
 class formulario {
-    constructor() {
+    constructor(sonido) {
         
-        this.mensaje1 = new SpeechSynthesisUtterance()
-        this.mensaje1.lang = 'es-ES';
-        this.mensaje1.volume = 1;
-        this.mensaje1.rate = 0.5;
-        this.mensaje1.pitch = 1;
-        this.mensaje1.text = 'Bienvenido, si sufres invidencia, presiona F, en caso contrario pulsa J,  seguidamente presiona enter'
-        
+        this.sonido = sonido
         this.invidente = false;
         this.nombre = '';
         ////Crear el objeto formulario
@@ -47,9 +41,9 @@ class formulario {
     call(){
         this.SetAtributeElements();
         this.RenderQuestion();
-        speechSynthesis.speak(this.mensaje1)
-        //this.RenderTextBox()
         this.ExtraFunction();
+
+        this.sonido.renderSound('Bienvenido, si sufres invidencia, presiona F, en caso contrario pulsa J,  seguidamente presiona enter')
     }
 
 
@@ -140,6 +134,9 @@ class formulario {
         this.father = document.getElementById('container-father').appendChild(this.formulario);//Agregar el formulario a la etiquete con el ID
     }
     RenderTextBox(){
+
+        speechSynthesis.cancel();
+        this.sonido.renderSound('introduzca su nombre y seguidamente Enter')
         this.formulario.appendChild(this.titulo);//Agregar el objeto titulo al objeto formulario
         this.formulario.appendChild(this.pregunta2);
         this.formulario.appendChild(this.cajaTextNombres);//Agregar el objeto caja de texto Nombres al objeto formulario

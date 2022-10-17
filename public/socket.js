@@ -1,5 +1,5 @@
 class Socket {
-    constructor(menu, form, waiting, board, casilla, personaje, pregunta, finales) {
+    constructor(menu, form, waiting, board, casilla, personaje, pregunta, finales, sonido) {
 
         /**CLASES */
         this.form = form
@@ -10,6 +10,8 @@ class Socket {
         this.personaje = personaje
         this.pregunta = pregunta
         this.finales = finales
+
+        this.sonido = sonido
 
 
         /**LISTENERS PARA LAS CLASES*/
@@ -79,7 +81,7 @@ class Socket {
 
             /**BIENVENIDO */
 
-            setTimeout(()=>{this.popUp()},[4000])
+            setTimeout(() => { this.popUp() }, [4000])
 
         })
 
@@ -87,7 +89,7 @@ class Socket {
 
             this.turn = !this.turn
 
-            
+
             if (this.turn) {
                 this.contadorErrores++
             }
@@ -97,63 +99,82 @@ class Socket {
         })
 
         this.socket.on('movimiento', (data) => {
-            
-            
+
+
             this.personaje.movimiento(data)
             this.finales.renderMensaje(data)
 
-            setTimeout(()=>{this.finales.removeMensaje()},[4000])
+            setTimeout(() => { this.finales.removeMensaje() }, [4000])
 
             /**SPECIAL TABLE SQUARES */
 
             if (this.personaje.trampa === 2) {
 
-                console.log('laberinto')
-                this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla+1}`)
+
+
+                this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
 
-                for(let i = 0; i <2;i++){
+                for (let i = 0; i < 2; i++) {
                     this.destroySquare()
+                    speechSynthesis.cancel()
+                    this.sonido.renderSound('Has caido en el laberinto, penalización de 2 casillas caidas')
                 }
 
-                setTimeout(()=>{this.personaje.movimientoEspacial()},[7000])
-                
-                
+                setTimeout(() => { this.personaje.movimientoEspacial() }, [7000])
+
+
             }
             if (this.personaje.trampa === 4) {
-                console.log('carcel')
-                this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla+1}`)
+
+
+
+                this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
 
-                for(let i = 0; i <4;i++){
+                for (let i = 0; i < 4; i++) {
                     this.destroySquare()
+                    speechSynthesis.cancel()
+                    this.sonido.renderSound('Has caido en la carcel, penalización de 4 casillas caidas')
                 }
-                
-                setTimeout(()=>{this.personaje.movimientoEspacial()},[7000])
+
+                setTimeout(() => { this.personaje.movimientoEspacial() }, [7000])
             }
 
-            if(this.personaje.trampa === 666){
-                console.log('muerte')
+            if (this.personaje.trampa === 666) {
+
+                speechSynthesis.cancel()
+                this.sonido.renderSound('Has muerto colegui MUAjajajaj')
+
                 this.finales.renderFinal(false)
-                
-                setTimeout(()=>{this.reloadGame()},[10000])
+
+                setTimeout(() => { this.reloadGame() }, [10000])
             }
 
             /**WIN & LOST METHODS */
 
-            if(this.personaje.numCasilla <= this.casillaDestruida ){/**LOST */
-                
-                this.finales.renderFinal(false)
-                
-                setTimeout(()=>{this.reloadGame()},[10000])
+                if (this.personaje.numCasilla < this.casillaDestruida) {/**LOST */
 
-            }else if(this.personaje.numCasilla >= 78){/**WIN */
-                
-                this.finales.renderFinal(true)
+                speechSynthesis.cancel()
 
-                setTimeout(()=>{this.reloadGame()},[10000])
-            }
-            
+                this.sonido.renderSound('muristee')
+
+                    this.finales.renderFinal(false)
+
+                    setTimeout(() => { this.reloadGame() }, [10000])
+
+                } else if (this.personaje.numCasilla >= 78) {/**WIN */
+
+                speechSynthesis.cancel()
+
+                this.sonido.renderSound('ganassste weeeey')
+
+                    this.finales.renderFinal(true)
+
+                    setTimeout(() => { this.reloadGame() }, [10000])
+                }
+
+
         })
 
         this.socket.on('fellow-disconnected', (data) => {
@@ -162,20 +183,24 @@ class Socket {
         })
 
 
-        this.socket.on('new-question',(data)=>{
+        this.socket.on('new-question', (data) => {
             this.turn = !this.turn
             this.preguntaNueva = data.pregunta
-            
+            this.contadorErrores = 0;
+
             /**hacer una celebración imagen y sonido*/
-            this.pregunta.divgeneral.innerHTML=''
+            this.pregunta.divgeneral.innerHTML = ''
             this.pregunta.divgeneral.classList.remove('gobernadorabsoluto')
-            setTimeout(()=>{this.popUp()},[4000])
-            
+            setTimeout(() => { this.popUp() }, [4000])
+
         })
 
-        this.socket.on('casilla-destruida',()=>{
+        this.socket.on('casilla-destruida', () => {
+
+            this.sonido.renderSound(`casilla numero ${this.casillaDestruida} destruida JAJAJAJ`)
 
             this.casilla.destroyCasilla(this.casillaDestruida)
+            this.contadorTurnos = 0
             this.casillaDestruida++
         })
 
@@ -196,13 +221,13 @@ class Socket {
         this.socket.emit('inGame', { "room": sessionStorage.getItem('room') })
     }
 
-    changeQuestion(){
-        this.socket.emit('change-question',{"room":sessionStorage.getItem('room')})
+    changeQuestion() {
+        this.socket.emit('change-question', { "room": sessionStorage.getItem('room') })
     }
 
 
-    destroySquare(){
-        this.socket.emit('destroy-casilla',{"room":sessionStorage.getItem('room')})
+    destroySquare() {
+        this.socket.emit('destroy-casilla', { "room": sessionStorage.getItem('room') })
     }
 
     reloadGame() {
@@ -210,7 +235,7 @@ class Socket {
     }
 
 
-    popUp(){
+    popUp() {
         this.pregunta.attributes(this.preguntaNueva)
         this.pregunta.render()
         this.pregunta.renderPista(this.preguntaNueva, this.turn, this.invidencia)
@@ -261,9 +286,8 @@ class Socket {
 
                 this.contadorTurnos++
 
-                if(this.contadorTurnos>=2){
+                if (this.contadorTurnos >= 2) {
                     this.destroySquare()
-                    this.contadorTurnos=0
                 }
 
                 if (e.target.textContent === this.pregunta.respuestaCorrecta) {
@@ -278,7 +302,7 @@ class Socket {
                         this.contadorErrores++
 
                     } else {
-                        this.contadorErrores = 0;
+                        
                         this.socket.emit('respuesta', { "response": false, "room": sessionStorage.getItem('room') })
                         this.changeQuestion()
                     }
@@ -289,3 +313,6 @@ class Socket {
         })
     }
 }
+
+
+// 'Bienvenido, si sufres invidencia, presiona F, en caso contrario pulsa J,  seguidamente presiona enter'

@@ -10,7 +10,7 @@ require('./config/database');
 
 /**CONFIG SOCKET */
 const app = express()
-app.set('port',process.env.PORT || 3001)
+app.set('port',process.env.PORT || 8000)
 const server = http.createServer(app)
 const io = socketIo(server)
 

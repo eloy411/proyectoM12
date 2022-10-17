@@ -1,5 +1,5 @@
 class clsCasilla {
-    constructor(pnumrows, pnumcasilla) {
+    constructor(pnumrows, pnumcasilla , sonido) {
         this.x = 0
         this.i = 0
         this.j = 0
@@ -7,6 +7,7 @@ class clsCasilla {
         this.numrows = pnumrows
         this.numcasilla = pnumcasilla
         this.randomList = []
+        this.sonido = sonido
 
     }
     PaintMethod() {

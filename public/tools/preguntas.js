@@ -1,9 +1,18 @@
 class Preguntas {
 
-    constructor() {
+    constructor(sonido) {
 
 
         /**NUESTRO */
+        this.sonido1 = new Sound()
+        this.sonido2 = new Sound()
+        this.sonido3 = new Sound()
+        this.sonido4 = new Sound()
+        this.sonido5 = new Sound()
+        this.sonido6 = new Sound()
+        this.sonido7 = new Sound()
+        this.sonido8 = new Sound()
+        this.sonido9 = new Sound()
         this.numPregunta = 0
         this.respuestaCorrecta = ''
 
@@ -32,6 +41,8 @@ class Preguntas {
 
     attributes(pregunta) {
 
+
+        
         this.respuestaCorrecta = pregunta.respuesta
 
         this.divgeneral.setAttribute('id', 'divGeneral');
@@ -69,6 +80,7 @@ class Preguntas {
         this.respuestaI2.innerText = pregunta.respuestaI[1];
 
 
+
     }
 
 
@@ -76,6 +88,7 @@ class Preguntas {
 
     render() {
 
+        speechSynthesis.cancel()
         this.divgeneral.appendChild(this.modal)
         this.modal.appendChild(this.modalcontent)
         this.modalcontent.appendChild(this.Titulopregunta)
@@ -108,8 +121,20 @@ class Preguntas {
             this.contenedorBotones.appendChild(this.respuestaI2)
 
             if (invidencia) {
+                this.sonido1.renderSound(pregunta.pregunta)
+                // this.sonido.renderSound('   ')
+                this.sonido2.renderSound('Respuesta 1')
+                this.sonido3.renderSound(pregunta.respuesta)
+                this.sonido4.renderSound('Respuesta 2')
+                this.sonido5.renderSound(pregunta.respuestaI[0])
+                this.sonido6.renderSound('Respuesta 3')
+                this.sonido7.renderSound(pregunta.respuestaI[1])
+
+                this.sonido8.renderSound('Pista   ')
+                this.sonido9.renderSound(pregunta.pistaA)
+                
                 this.imagenPregunta.setAttribute('src', 'https://thumbs.dreamstime.com/z/ondas-ac%C3%BAsticas-del-o%C3%ADdo-40358790.jpg');
-                console.log(pregunta.pistaA)
+                
             } else {
                 this.imagenPregunta.setAttribute('src', pregunta.pistaI);
             }
