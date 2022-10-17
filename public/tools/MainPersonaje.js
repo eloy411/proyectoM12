@@ -31,6 +31,11 @@ class MainPersonaje {
 
     movimiento(condition){/**condition es booleano TRUE-respuesta correcta avanza, FALSE-al contrario */
 
+            if(condition && this.numCasilla == 77){
+                
+                this.numCasilla++
+
+            }else{
             if(condition){
                 this.casilla = document.getElementById(`casilla-x-${this.numCasilla+this.valorCasilla}`)
                 
@@ -82,6 +87,7 @@ class MainPersonaje {
 
                 
             }
+        }
             
                 
     }

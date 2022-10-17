@@ -88,7 +88,7 @@ class Preguntas {
 
     render() {
 
-        speechSynthesis.cancel()
+        
         this.divgeneral.appendChild(this.modal)
         this.modal.appendChild(this.modalcontent)
         this.modalcontent.appendChild(this.Titulopregunta)

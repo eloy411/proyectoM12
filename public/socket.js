@@ -28,6 +28,7 @@ class Socket {
         this.casillaDestruida = 0
         this.contadorTurnos = 0
 
+        this.trampa = false
     }
 
     connect() {
@@ -100,6 +101,8 @@ class Socket {
 
         this.socket.on('movimiento', (data) => {
 
+            speechSynthesis.cancel()
+            
 
             this.personaje.movimiento(data)
             this.finales.renderMensaje(data)
@@ -110,35 +113,36 @@ class Socket {
 
             if (this.personaje.trampa === 2) {
 
-
-
+                speechSynthesis.cancel()
+                this.sonido.renderSound('Has caido en el laberinto, penalización de 2 casillas caidas')
+                this.trampa = true
                 this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
 
                 for (let i = 0; i < 2; i++) {
                     this.destroySquare()
-                    speechSynthesis.cancel()
-                    this.sonido.renderSound('Has caido en el laberinto, penalización de 2 casillas caidas')
+                    
                 }
 
-                setTimeout(() => { this.personaje.movimientoEspacial() }, [7000])
+                setTimeout(() => { this.personaje.movimientoEspacial() }, [4000])
 
 
             }
             if (this.personaje.trampa === 4) {
 
+                speechSynthesis.cancel()
+                this.sonido.renderSound('Has caido en la carcel, penalización de 4 casillas caidas')
 
-
+                this.trampa = true
                 this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
 
                 for (let i = 0; i < 4; i++) {
                     this.destroySquare()
-                    speechSynthesis.cancel()
-                    this.sonido.renderSound('Has caido en la carcel, penalización de 4 casillas caidas')
+                   
                 }
 
-                setTimeout(() => { this.personaje.movimientoEspacial() }, [7000])
+                setTimeout(() => { this.personaje.movimientoEspacial() }, [4000])
             }
 
             if (this.personaje.trampa === 666) {
@@ -185,6 +189,7 @@ class Socket {
 
         this.socket.on('new-question', (data) => {
             this.turn = !this.turn
+            this.trampa = false
             this.preguntaNueva = data.pregunta
             this.contadorErrores = 0;
 
@@ -197,7 +202,10 @@ class Socket {
 
         this.socket.on('casilla-destruida', () => {
 
-            this.sonido.renderSound(`casilla numero ${this.casillaDestruida} destruida JAJAJAJ`)
+            if(!this.trampa){
+                this.sonido.renderSound(`casilla numero ${this.casillaDestruida} destruida JAJAJAJ`)
+            }
+            
 
             this.casilla.destroyCasilla(this.casillaDestruida)
             this.contadorTurnos = 0

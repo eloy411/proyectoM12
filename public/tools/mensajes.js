@@ -1,7 +1,7 @@
 class Finales {
 
     constructor(sonido) {
-        
+
         this.container = document.getElementById('container-father')
 
         this.endGame = document.createElement('div')
@@ -13,7 +13,7 @@ class Finales {
         this.mensajePantalla.id = 'mensaje-pantalla'
         this.mensajePantalla.classList.add('game-over-div')
         this.mensajePantallaText = document.createElement('h1')
-        this.sonido = sonido
+        this.sonido = new Sound()
 
     }
 
@@ -36,11 +36,15 @@ class Finales {
     renderMensaje(condition) {
 
         if (condition) {
+            speechSynthesis.cancel()
+            this.sonido.renderSound('respuesta correcta')
             this.mensajePantalla.classList.add('mensaje-correcto')
             this.mensajePantallaText.innerText = 'CORRECTO!'
             this.mensajePantalla.appendChild(this.mensajePantallaText)
             this.container.appendChild(this.mensajePantalla)
         } else {
+            speechSynthesis.cancel()
+            this.sonido.renderSound('respuesta incorrecta')
             this.mensajePantalla.classList.add('mensaje-incorrecto')
             this.mensajePantallaText.innerText = 'INCORRECTO.... :('
             this.mensajePantalla.appendChild(this.mensajePantallaText)
