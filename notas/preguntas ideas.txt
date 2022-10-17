@@ -1,0 +1,70 @@
+1
+que peli es?
+respuestaC=Reyleon
+respuestaI=El libro de la selva
+respuestaI=Tarzan
+img=
+audio=Hakuna matata
+2
+Que actor es?
+recpuestaC=Elijah Wood
+respuestaI=Tommy Maguire
+respuestaI=Daniel Radcliffe
+img=
+audio=creo que ser diferente, ir contra la sociedad es la cosa mas grande del mundo
+3
+que personaje es?
+recpuestaC=Rayo mcqueen
+respuestaI=mate
+respuestaI=chick hicks
+img=
+audio= Catchau
+4
+que peli es?
+respuestaC=El señor de los anillos
+respuestaI=Las cronicas de narnia
+respuestaI=El Hobbit
+img=
+audio=¡¡¡No puedes pasar!!!!!
+5
+Que peli es?
+respuestaC=Matrix1
+respuestaI=Matrix2
+respuestaI=Matrix3
+img=
+audio=sigue al conejo
+6
+Que actriz es?
+respuestaC=Angelina Jolie
+respuestaI=Megan Fox
+respuestaI=Ana de Armas
+img=
+audio= interpreta una pelicula de disney
+7
+que personaje es?
+respuestaC=Desdentado
+respuestaI=Stich
+respuestaI=Bagira
+img=
+audio=Disparo de desdentado
+8
+Completa la frase (Corred ____)
+respuestaC= insensatos
+respuestaI= estupidos
+respuestaI= inconsciente
+img=
+audio= Sonido de blarog de moria
+9
+Que peli es?
+respuestaC=El lobo de wall street
+respuestaI=Good Will Hunting
+respuestaI=sin limites
+img=
+audio=Motivame apoyame o quitate de mi camino
+10
+Que actor es?
+respuestaC=Anthony Hopkins
+respuestaI=Jack Nicholson
+respuestaI=Sean Connery
+img=
+audio=Me comi su higado con frijoles y un buen Chianti
