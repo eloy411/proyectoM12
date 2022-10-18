@@ -286,6 +286,10 @@ class Socket {
             this.searchRoom()
 
         })
+
+        this.waiting.botonCancelar.addEventListener('click',()=>{
+            this.reloadGame()
+        })
     }
 
 

@@ -4,6 +4,8 @@ arreglar el audio en ciertas preguntas*
 
 arreglar el audio de casilla destruida*
 
+botones de cancelación*
+
 selección de personaje*
 
 subir nivel de dificultad (contra mas avanza mas casillas caen)
