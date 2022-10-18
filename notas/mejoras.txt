@@ -1,0 +1,11 @@
+chat de voz
+
+random en la pregunta correcta (Lo haríamos con un array y luego indexación random)
+
+arreglar el audio en ciertas preguntas 
+
+arreglar el audio de casilla destruida
+
+selección de personaje
+
+

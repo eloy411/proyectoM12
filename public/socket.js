@@ -49,11 +49,15 @@ class Socket {
             this.menu.CallMenu()
         })
 
+
+
         this.socket.on('createdRoom', (dato) => {
             sessionStorage.setItem('room', dato.room)
             this.waiting.Call()
 
         })
+
+
 
         this.socket.on('foundRoom', (dato) => {
 
@@ -128,6 +132,7 @@ class Socket {
 
 
             }
+
             if (this.personaje.trampa === 4) {
 
                 speechSynthesis.cancel()

@@ -42,7 +42,7 @@ class Preguntas {
     attributes(pregunta) {
 
 
-        
+
         this.respuestaCorrecta = pregunta.respuesta
 
         this.divgeneral.setAttribute('id', 'divGeneral');
@@ -88,7 +88,7 @@ class Preguntas {
 
     render() {
 
-        
+
         this.divgeneral.appendChild(this.modal)
         this.modal.appendChild(this.modalcontent)
         this.modalcontent.appendChild(this.Titulopregunta)
@@ -101,12 +101,25 @@ class Preguntas {
         this.contenedorImg.appendChild(this.imagenPregunta)
         this.modal.appendChild(this.contenedorBotones)
 
+        this.respuestasArray = [this.resCorrecta, this.respuestaI1, this.respuestaI2]
+        this.respuestasRandom = []
+        while (this.respuestasRandom.length < 3) {
 
-        this.contenedorBotones.appendChild(this.resCorrecta)
-        this.contenedorBotones.appendChild(this.respuestaI1)
-        this.contenedorBotones.appendChild(this.respuestaI2)
+            let index = Math.round(Math.random() * 3)
 
-        document.getElementById('body').appendChild(this.divgeneral)
+            if (!this.respuestasRandom.includes(index) && index != 3) {
+                this.respuestasRandom.push(index)
+            }
+        }
+
+        console.log(this.respuestasArray)
+        console.log(this.respuestasRandom)
+
+        this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[0]])
+        this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[1]])
+        this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[2]])
+
+        document.getElementById('body').append(this.divgeneral)
 
 
 
@@ -116,25 +129,38 @@ class Preguntas {
         console.log(pregunta.pistaI)
         if (turn) {
             this.contenedorBotones.innerHTML = ''
-            this.contenedorBotones.appendChild(this.resCorrecta)
-            this.contenedorBotones.appendChild(this.respuestaI1)
-            this.contenedorBotones.appendChild(this.respuestaI2)
+
+            this.respuestasArray = [this.resCorrecta, this.respuestaI1, this.respuestaI2]
+            this.respuestasRandom = []
+            while (this.respuestasRandom.length < 3) {
+
+                let index = Math.round((Math.random() * 3))
+
+                if (!this.respuestasRandom.includes(index) && index != 3) {
+                    this.respuestasRandom.push(index)
+                }
+            }
+            // console.log(this.respuestasRandom)
+
+            this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[0]])
+            this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[1]])
+            this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[2]])
 
             if (invidencia) {
                 this.sonido1.renderSound(pregunta.pregunta)
                 // this.sonido.renderSound('   ')
                 this.sonido2.renderSound('Respuesta 1')
-                this.sonido3.renderSound(pregunta.respuesta)
+                this.sonido3.renderSound(this.respuestasArray[this.respuestasRandom[0]].textContent)
                 this.sonido4.renderSound('Respuesta 2')
-                this.sonido5.renderSound(pregunta.respuestaI[0])
+                this.sonido5.renderSound(this.respuestasArray[this.respuestasRandom[1]].textContent)
                 this.sonido6.renderSound('Respuesta 3')
-                this.sonido7.renderSound(pregunta.respuestaI[1])
+                this.sonido7.renderSound(this.respuestasArray[this.respuestasRandom[2]].textContent)
 
                 this.sonido8.renderSound('Pista   ')
                 this.sonido9.renderSound(pregunta.pistaA)
-                
+
                 this.imagenPregunta.setAttribute('src', 'https://thumbs.dreamstime.com/z/ondas-ac%C3%BAsticas-del-o%C3%ADdo-40358790.jpg');
-                
+
             } else {
                 this.imagenPregunta.setAttribute('src', pregunta.pistaI);
             }

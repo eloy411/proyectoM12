@@ -1,7 +1,20 @@
 class formulario {
-    constructor(sonido) {
+    constructor(objJson) {
+        this.objJson=objJson
+        this.mensaje1 = new SpeechSynthesisUtterance()
+        this.mensaje1.lang = 'es-ES';
+        this.mensaje1.volume = 1;
+        this.mensaje1.rate = 0.5;
+        this.mensaje1.pitch = 1;
+        this.mensaje1.text = this.objJson.audios[0].preguntaForm1
+
+        this.mensaje2 = new SpeechSynthesisUtterance()
+        this.mensaje2.lang = 'es-ES';
+        this.mensaje2.volume = 1;
+        this.mensaje2.rate = 0.5;
+        this.mensaje2.pitch = 1;
+        this.mensaje2.text = this.objJson.audios[1].preguntaForm2
         
-        this.sonido = sonido
         this.invidente = false;
         this.nombre = '';
         ////Crear el objeto formulario
@@ -41,9 +54,11 @@ class formulario {
     call(){
         this.SetAtributeElements();
         this.RenderQuestion();
+        
+        console.log(this.mensaje1)
+        //this.RenderTextBox()
         this.ExtraFunction();
-
-        this.sonido.renderSound('Bienvenido, si sufres invidencia, presiona F, en caso contrario pulsa J,  seguidamente presiona enter')
+        speechSynthesis.speak(this.mensaje1)
     }
 
 
@@ -134,15 +149,14 @@ class formulario {
         this.father = document.getElementById('container-father').appendChild(this.formulario);//Agregar el formulario a la etiquete con el ID
     }
     RenderTextBox(){
-
-        speechSynthesis.cancel();
-        this.sonido.renderSound('introduzca su nombre y seguidamente Enter')
         this.formulario.appendChild(this.titulo);//Agregar el objeto titulo al objeto formulario
         this.formulario.appendChild(this.pregunta2);
         this.formulario.appendChild(this.cajaTextNombres);//Agregar el objeto caja de texto Nombres al objeto formulario
         this.formulario.appendChild(this.boton2);//Agregar el objeto boton al objeto formulario
         document.getElementById('container-father').appendChild(this.formulario);
         this.cajaTextNombres.select()
+        
+        
     }
     ExtraFunction(){
         var listenerbol=false
@@ -158,6 +172,9 @@ class formulario {
         this.RenderTextBox()  
         listenerbol=true
         document.addEventListener('keydown', this.SelectButon2);
+        console.log(listenerbol)
+        speechSynthesis.speak(this.mensaje2)  
+        console.log(this.mensaje1)
     })
     }
     KeyDawn(e){

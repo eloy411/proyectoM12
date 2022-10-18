@@ -152,6 +152,10 @@ div.menu{
     font-weight:bold;
     font-size: 30px;
 }
+.button1:hover{
+    background: #ababab;
+}
+
 .button2{
     box-sizing: border-box;
     width: 336px;
@@ -164,9 +168,13 @@ div.menu{
     font-weight:bold;
     font-size: 30px;
 }
+.button2:hover{
+    background: #ababab;
+}
 .logo{
-    width: 376px;
-    height: 376px;
+    margin-top: 5vh;
+    width: 356px;
+    height: 356px;
     position: absolute;
 }
 .exit{
@@ -183,6 +191,9 @@ div.menu{
     font-weight:bold;
     font-size: 30px;
 }
+.exit:hover{
+    background: #ababab;
+}
 .chlanguaje{
     box-sizing: border-box;
     position: absolute;
@@ -198,6 +209,9 @@ div.menu{
     font-size: 20px;
     text-align: center;
 }
+.chlanguaje:hover{
+    background: #ababab;
+}
 .sound{
     box-sizing: border-box;
     position: absolute;
@@ -210,6 +224,9 @@ div.menu{
     box-shadow: 0px 4px 16px 8px #47DFF0;
     border-radius: 100%;
 }
+.sound:hover{
+    background: #ababab;
+}
 .info{
     box-sizing: border-box;
     position: absolute;
@@ -221,6 +238,9 @@ div.menu{
     border: 8px solid #000000;
     box-shadow: 0px 4px 16px 8px #47DFF0;
     border-radius: 100%;
+}
+.info:hover{
+    background: #ababab;
 }
 .userName{
     position: relative;
