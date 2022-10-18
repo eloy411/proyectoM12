@@ -68,6 +68,7 @@ class Socket {
 
             /**RENDER GAME */
             // console.log(dato.listaRandom)
+            speechSynthesis.cancel()
             this.board.RenderBoard()
             this.casilla.MethodSwitch(dato.listaRandom)
             this.personaje.Call()
