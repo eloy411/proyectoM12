@@ -118,7 +118,7 @@ class Socket {
             if (this.personaje.trampa === 2) {
 
                 speechSynthesis.cancel()
-                this.sonido.renderSound('Has caido en el laberinto, penalización de 2 casillas caidas')
+                this.sonido.renderSound('Has caido en el laberinto, penalización de 2 casillas destruidas')
                 this.trampa = true
                 this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
@@ -136,7 +136,7 @@ class Socket {
             if (this.personaje.trampa === 4) {
 
                 speechSynthesis.cancel()
-                this.sonido.renderSound('Has caido en la carcel, penalización de 4 casillas caidas')
+                this.sonido.renderSound('Has caido en la carcel, penalización de 4 casillas destruidas')
 
                 this.trampa = true
                 this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
@@ -166,7 +166,7 @@ class Socket {
 
                 speechSynthesis.cancel()
 
-                this.sonido.renderSound('muristee')
+                this.sonido.renderSound('HAS     MUERTO')
 
                     this.finales.renderFinal(false)
 

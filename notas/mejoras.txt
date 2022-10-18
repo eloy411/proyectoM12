@@ -1,11 +1,13 @@
-chat de voz
+chat de voz*
 
-random en la pregunta correcta (Lo haríamos con un array y luego indexación random)
+arreglar el audio en ciertas preguntas*
 
-arreglar el audio en ciertas preguntas 
+arreglar el audio de casilla destruida*
 
-arreglar el audio de casilla destruida
+selección de personaje*
 
-selección de personaje
+subir nivel de dificultad (contra mas avanza mas casillas caen)
+
+vs por equipos
 
 
