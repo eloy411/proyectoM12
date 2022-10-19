@@ -72,12 +72,15 @@ class Preguntas {
 
         this.resCorrecta.setAttribute('class', 'botonO')
         this.resCorrecta.innerText = this.respuestaCorrecta;
+        // this.resCorrecta.addEventListener('keydown',this.keyDown)
 
         this.respuestaI1.setAttribute('class', 'botonO')
         this.respuestaI1.innerText = pregunta.respuestaI[0];
+        // this.respuestaI1.addEventListener('keydown',this.keyDown)
 
         this.respuestaI2.setAttribute('class', 'botonO')
         this.respuestaI2.innerText = pregunta.respuestaI[1];
+        // this.respuestaI2.addEventListener('keydown',this.keyDown)
 
 
 
@@ -125,8 +128,8 @@ class Preguntas {
 
     }
 
-    renderPista(pregunta, turn, invidencia) {
-        console.log(pregunta.pistaI)
+    renderPista(pregunta, turn, invidencia, numCasilla) {
+        
         if (turn) {
             this.contenedorBotones.innerHTML = ''
 
@@ -142,19 +145,23 @@ class Preguntas {
             }
             // console.log(this.respuestasRandom)
 
+            this.respuestasArray[this.respuestasRandom[0]].id = 'res1'
+            this.respuestasArray[this.respuestasRandom[1]].id= 'res2'
+            this.respuestasArray[this.respuestasRandom[2]].id = 'res3'
             this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[0]])
             this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[1]])
             this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[2]])
 
             if (invidencia) {
-                this.sonido1.renderSound(pregunta.pregunta)
+                this.sonido1.renderSound(`bien, estas en la casilla numero ${numCasilla},
+                la pregunta es...${pregunta.pregunta}`)
                 // this.sonido.renderSound('   ')
                 this.sonido2.renderSound('Respuesta 1')
                 this.sonido3.renderSound(this.respuestasArray[this.respuestasRandom[0]].textContent)
                 this.sonido4.renderSound('Respuesta 2')
                 this.sonido5.renderSound(this.respuestasArray[this.respuestasRandom[1]].textContent)
                 this.sonido6.renderSound('Respuesta 3')
-                this.sonido7.renderSound(this.respuestasArray[this.respuestasRandom[2]].textContent)
+                this.sonido7.renderSound(`${this.respuestasArray[this.respuestasRandom[2]].textContent}, , para responder pulse el numero de la respuesta en su teclado.`)
 
                 this.sonido8.renderSound('Pista   ')
                 this.sonido9.renderSound(pregunta.pistaA)
@@ -169,5 +176,21 @@ class Preguntas {
             this.imagenPregunta.setAttribute('src', 'https://img.freepik.com/vector-gratis/ilustracion-icono-dibujos-animados-temporizador-cronometro_138676-2420.jpg?w=2000');
             console.log('esperando que el compañero responda')
         }
+
+        document.addEventListener('keydown',this.keyDown)
     }
+
+
+    keyDown(e){
+        if(e.key == '1'){
+            document.getElementById('res1').click()
+        }
+        if(e.key == '2'){
+            document.getElementById('res2').click()
+        }
+        if(e.key == '3'){
+            document.getElementById('res3').click()
+        }
+    }
+   
 }

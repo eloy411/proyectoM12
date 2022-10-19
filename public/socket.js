@@ -29,7 +29,7 @@ class Socket {
         this.contadorTurnos = 0
         this.contadorPregunta = 0
         this.longitudListaRandom = 0
-
+        this.search = 0
         this.trampa = false
     }
 
@@ -89,7 +89,7 @@ class Socket {
 
             this.contadorPregunta++
 
-            sessionStorage.setItem('listaRandomPreguntas',data.lista)
+            sessionStorage.setItem('listaRandomPreguntas', data.lista)
 
             this.longitudListaRandom = data.lista.length
 
@@ -114,7 +114,7 @@ class Socket {
         this.socket.on('movimiento', (data) => {
 
             speechSynthesis.cancel()
-            
+
 
             this.personaje.movimiento(data)
             this.finales.renderMensaje(data)
@@ -133,7 +133,7 @@ class Socket {
 
                 for (let i = 0; i < 2; i++) {
                     this.destroySquare()
-                    
+
                 }
 
                 setTimeout(() => { this.personaje.movimientoEspacial() }, [4000])
@@ -152,7 +152,7 @@ class Socket {
 
                 for (let i = 0; i < 4; i++) {
                     this.destroySquare()
-                   
+
                 }
 
                 setTimeout(() => { this.personaje.movimientoEspacial() }, [4000])
@@ -170,26 +170,26 @@ class Socket {
 
             /**WIN & LOST METHODS */
 
-                if (this.personaje.numCasilla < this.casillaDestruida) {/**LOST */
+            if (this.personaje.numCasilla < this.casillaDestruida) {/**LOST */
 
                 speechSynthesis.cancel()
 
                 this.sonido.renderSound('HAS     MUERTO')
 
-                    this.finales.renderFinal(false)
+                this.finales.renderFinal(false)
 
-                    setTimeout(() => { this.reloadGame() }, [10000])
+                setTimeout(() => { this.reloadGame() }, [10000])
 
-                } else if (this.personaje.numCasilla >= 78) {/**WIN */
+            } else if (this.personaje.numCasilla >= 78) {/**WIN */
 
                 speechSynthesis.cancel()
 
                 this.sonido.renderSound('ganassste weeeey')
 
-                    this.finales.renderFinal(true)
+                this.finales.renderFinal(true)
 
-                    setTimeout(() => { this.reloadGame() }, [10000])
-                }
+                setTimeout(() => { this.reloadGame() }, [10000])
+            }
 
 
         })
@@ -204,8 +204,8 @@ class Socket {
 
             this.contadorPregunta++
 
-            
-            if(this.contadorPregunta === this.longitudListaRandom){
+
+            if (this.contadorPregunta === this.longitudListaRandom) {
                 this.contadorPregunta = 0
             }
 
@@ -223,13 +223,20 @@ class Socket {
 
         this.socket.on('casilla-destruida', () => {
 
-            if(!this.trampa){
+            if (!this.trampa) {
                 this.sonido.renderSound(`casilla numero ${this.casillaDestruida} destruida JAJAJAJ`)
             }
-            
+
             this.casilla.destroyCasilla(this.casillaDestruida)
             this.contadorTurnos = 0
             this.casillaDestruida++
+            
+            if(this.casillaDestruida >= this.personaje.numCasilla){
+                speechSynthesis.cancel()
+                this.sonido.renderSound('HAS     MUERTO jujujajajajajaja ja ja ja a a o')
+                this.finales.renderFinal(false)
+                setTimeout(()=>{this.reloadGame()},[10000])
+            }
         })
 
     }
@@ -242,7 +249,7 @@ class Socket {
     }
 
     searchRoom() {
-        this.socket.emit('searchRoom', { "search": this.menu.search, "name": sessionStorage.getItem('name'), "invidencia": sessionStorage.getItem('invidencia') })
+        this.socket.emit('searchRoom', { "search": this.search, "name": sessionStorage.getItem('name'), "invidencia": sessionStorage.getItem('invidencia') })
     }
 
     startGame() {
@@ -250,7 +257,7 @@ class Socket {
     }
 
     changeQuestion() {
-        this.socket.emit('change-question', { "room": sessionStorage.getItem('room'),"listRandom": sessionStorage.getItem('listaRandomPreguntas'),"numPregunta":this.contadorPregunta })
+        this.socket.emit('change-question', { "room": sessionStorage.getItem('room'), "listRandom": sessionStorage.getItem('listaRandomPreguntas'), "numPregunta": this.contadorPregunta })
     }
 
 
@@ -266,7 +273,7 @@ class Socket {
     popUp() {
         this.pregunta.attributes(this.preguntaNueva)
         this.pregunta.render()
-        this.pregunta.renderPista(this.preguntaNueva, this.turn, this.invidencia)
+        this.pregunta.renderPista(this.preguntaNueva, this.turn, this.invidencia, this.personaje.numCasilla)
     }
 
     /**CONTROL COMMANDS */
@@ -295,13 +302,20 @@ class Socket {
 
         })
 
-        this.menu.button2.addEventListener('click', () => {
+        this.menu.button3.addEventListener('click', () => {
+            this.search="random"
+            this.searchRoom()
 
+        })
+        this.menu.button4.addEventListener('click', () => {
+            this.search=this.menu.TextBox.value
+
+            console.log(this.search)
             this.searchRoom()
 
         })
 
-        this.waiting.botonCancelar.addEventListener('click',()=>{
+        this.waiting.botonCancelar.addEventListener('click', () => {
 
             this.reloadGame()
         })
@@ -332,7 +346,7 @@ class Socket {
                         this.contadorErrores++
 
                     } else {
-                        
+
                         this.socket.emit('respuesta', { "response": false, "room": sessionStorage.getItem('room') })
                         this.changeQuestion()
                     }

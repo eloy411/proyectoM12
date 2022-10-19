@@ -67,12 +67,23 @@ Socket.connection = (io) => {
 
          } else {/**BUSCAR A ALGUIEN ESPECÍFICAMENTE */
 
+            var coincidencia = false
+
+            const listaRandom = []
+
+            for (let i = 0; i < 63; i++) {
+
+               var num = Math.floor(Math.random() * 4) + 1
+               listaRandom.push(num)
+               // console.log(num)
+            }
+
             for (let i = 0; i < rooms.length; i++) {
 
                if (rooms[i].length === 2 && rooms[i][0] === data.search) {
                   rooms[i].push([socket.id, data.invidencia])
                   socket.join(rooms[i][0])
-                  io.to(rooms[i][0]).emit('foundRoom', { "room": rooms[i][0], "message": `${data.name} conectado en el room ${rooms[i][0]}` })
+                  io.to(rooms[i][0]).emit('foundRoom', { "room": rooms[i][0], "message": `${data.name} conectado en el room ${rooms[i][0]}`, "listaRandom": listaRandom })
                   i = rooms.length
                   coincidencia = true
                }

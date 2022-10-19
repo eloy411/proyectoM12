@@ -160,8 +160,8 @@ class formulario {
         document.addEventListener('keydown', this.SelectButon2);
     })
     }
+    
     KeyDawn(e){
-        console.log(e)
                 if (e.key==='f'|| e.key==='F') {
                     document.getElementById("optionsi").checked=true
                     sessionStorage.setItem('invidencia',true)

@@ -21,6 +21,9 @@ class MainMenu {
         this.infor = document.createElement('img')
         this.musicaF = document.createElement('audio')
         this.musica = document.createElement('source')
+        this.button3 = document.createElement('button')
+        this.TextBox = document.createElement('input')
+        this.button4= document.createElement('button')
 
         this.search = 'random'
     }
@@ -30,6 +33,7 @@ class MainMenu {
         this.SetAtributes();
         this.Render();
         this.Keydowns();
+        this.ListenerButton();
         this.sonido.renderSound('pulsa F, para crear partida,o, Pulsa J, para unirte a una existente ')
     }
 
@@ -97,6 +101,19 @@ class MainMenu {
 
         this.musica.setAttribute('src','audio/musica_fondo.mp3')
         this.musica.setAttribute('type','audio/mpeg')
+
+        this.button3.setAttribute('class','button3');
+        this.button3.setAttribute('id','randomGame');
+        this.button3.innerHTML="RANDOM";
+
+        this.TextBox.setAttribute('type', "text");
+        this.TextBox.setAttribute('placeholder', "Nombre del creador de la sala");
+        this.TextBox.setAttribute('class','textbox2');
+        this.TextBox.setAttribute('id','textbox2');
+
+        this.button4.setAttribute('class','button4');
+        this.button4.setAttribute('id','joinGame');
+        this.button4.innerHTML="UNIRSE";
     }
     
     Keydowns(){
@@ -139,6 +156,39 @@ class MainMenu {
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
 
+    }
+
+    ListenerButton(){
+        this.button2.addEventListener('click',()=>{
+            this.d2.innerHTML =''
+            this.d3.innerHTML =''
+            this.menu.innerHTML=''
+            this.RenderJoinScrean()
+        })
+        this.button3.addEventListener('click',()=>{
+            this.search = 'random'
+         })
+    }
+    RenderJoinScrean(){
+        this.menu.appendChild(this.d1)
+        this.menu.appendChild(this.d2)
+        this.menu.appendChild(this.d3)
+        this.menu.appendChild(this.musicaF)
+        this.d1.appendChild(this.logo)
+        this.d1.appendChild(this.chlanguaje)
+        this.d1.appendChild(this.logout)
+        this.d1.appendChild(this.user)
+        this.d2.appendChild(this.button3)
+        this.d3.appendChild(this.TextBox)
+        this.d3.appendChild(this.button4)
+        this.d3.appendChild(this.exit)
+        this.d3.appendChild(this.sound)
+        this.d3.appendChild(this.info)
+        this.sound.appendChild(this.speaker)
+        this.speaker.appendChild(this.imageUn)
+        this.info.appendChild(this.infor)
+        this.musicaF.appendChild(this.musica)
+        document.getElementById('container-father').appendChild(this.menu)
     }
 
   

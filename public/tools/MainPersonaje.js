@@ -63,9 +63,12 @@ class MainPersonaje {
                 }
 
             }else{
+                if(this.numCasilla !== 0){
                 this.casilla = document.getElementById(`casilla-x-${this.numCasilla-this.valorCasilla}`)
 
-                this.numCasilla -= this.valorCasilla
+               
+                    this.numCasilla -= this.valorCasilla
+                
 
                 if(this.numCasilla == 9 || this.numCasilla == 25 || this.numCasilla == 37 || this.numCasilla == 52  || this.numCasilla == 75){
 
@@ -87,6 +90,7 @@ class MainPersonaje {
 
                 
             }
+        }
         }
             
                 
