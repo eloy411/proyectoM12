@@ -54,7 +54,6 @@ Socket.connection = (io) => {
                   socket.join(rooms[i][0])
                   rooms[i].push([socket.id, data.invidencia])
                   console.log(rooms[i])
-                  // console.log(listaRandom)
                   io.to(rooms[i][0]).emit('foundRoom', { "room": rooms[i][0], "message": `${data.name} conectado en el room ${rooms[i][0]}`, "listaRandom": listaRandom })
                   i = rooms.length
                   coincidencia = true
@@ -69,12 +68,17 @@ Socket.connection = (io) => {
          } else {/**BUSCAR A ALGUIEN ESPECÍFICAMENTE */
 
             for (let i = 0; i < rooms.length; i++) {
+
                if (rooms[i].length === 2 && rooms[i][0] === data.search) {
                   rooms[i].push([socket.id, data.invidencia])
                   socket.join(rooms[i][0])
                   io.to(rooms[i][0]).emit('foundRoom', { "room": rooms[i][0], "message": `${data.name} conectado en el room ${rooms[i][0]}` })
                   i = rooms.length
+                  coincidencia = true
                }
+            }
+            if (!coincidencia) {
+               console.log('no hay coincidencia')
             }
 
          }
@@ -87,25 +91,22 @@ Socket.connection = (io) => {
 
          const response = await Preguntas.find()
 
+         randomPreguntaList = []
          
-         function randomIndex(){
-            let i = Math.round(Math.random() * (response.length))
-            return i
+         while(randomPreguntaList.length<response.length){
+
+               let num = Math.round(Math.random() * (response.length-1))
+               if(!randomPreguntaList.includes(num)){
+                  randomPreguntaList.push(num)
+               }
+
          }
          
-         
-         var indice = response.length
-
-         while(indice === response.length){
-             indice = randomIndex()
-         }
-         
-         // if (i != 0) { i + 1 }
-
          dato = {
-            "pregunta": response[indice],
-            "id": indice
+            "pregunta": response[randomPreguntaList[0]],
+            "lista": randomPreguntaList
          }
+
          
          io.to(data.room).emit('send-pregunta', dato)
       })
@@ -113,7 +114,7 @@ Socket.connection = (io) => {
       /**CHANGE PISTA */
 
       socket.on('pista', (data) => {
-         console.log(data.room)
+         
          io.to(data.room).emit('change-pista')
       })
 
@@ -124,24 +125,13 @@ Socket.connection = (io) => {
 
          const response = await Preguntas.find()
 
-         function randomIndex(){
-
-            let i = Math.round(Math.random() * (response.length))
-            return i
-         }
-         
-         
-         var indice = response.length
-
-         while(indice === response.length){
-             indice = randomIndex()
-         }
+         indice = parseInt(data.listRandom.split(',')[data.numPregunta])
          
          dato = {
             "pregunta": response[indice],
             "id": indice
          }
-         console.log(dato.pregunta)
+         
          io.to(data.room).emit('new-question',dato)
       })
 

@@ -27,6 +27,8 @@ class Socket {
         this.contadorErrores = 0
         this.casillaDestruida = 0
         this.contadorTurnos = 0
+        this.contadorPregunta = 0
+        this.longitudListaRandom = 0
 
         this.trampa = false
     }
@@ -85,13 +87,18 @@ class Socket {
 
             this.preguntaNueva = data.pregunta
 
-            /**BIENVENIDO */
+            this.contadorPregunta++
+
+            sessionStorage.setItem('listaRandomPreguntas',data.lista)
+
+            this.longitudListaRandom = data.lista.length
 
             setTimeout(() => { this.popUp() }, [4000])
 
         })
 
         this.socket.on('change-pista', () => {
+
 
             this.turn = !this.turn
 
@@ -194,6 +201,14 @@ class Socket {
 
 
         this.socket.on('new-question', (data) => {
+
+            this.contadorPregunta++
+
+            
+            if(this.contadorPregunta === this.longitudListaRandom){
+                this.contadorPregunta = 0
+            }
+
             this.turn = !this.turn
             this.trampa = false
             this.preguntaNueva = data.pregunta
@@ -212,7 +227,6 @@ class Socket {
                 this.sonido.renderSound(`casilla numero ${this.casillaDestruida} destruida JAJAJAJ`)
             }
             
-
             this.casilla.destroyCasilla(this.casillaDestruida)
             this.contadorTurnos = 0
             this.casillaDestruida++
@@ -236,7 +250,7 @@ class Socket {
     }
 
     changeQuestion() {
-        this.socket.emit('change-question', { "room": sessionStorage.getItem('room') })
+        this.socket.emit('change-question', { "room": sessionStorage.getItem('room'),"listRandom": sessionStorage.getItem('listaRandomPreguntas'),"numPregunta":this.contadorPregunta })
     }
 
 
@@ -269,7 +283,6 @@ class Socket {
 
             this.connect()
 
-
         });
 
     }
@@ -289,6 +302,7 @@ class Socket {
         })
 
         this.waiting.botonCancelar.addEventListener('click',()=>{
+
             this.reloadGame()
         })
     }
@@ -298,8 +312,6 @@ class Socket {
 
         this.pregunta.contenedorBotones.addEventListener('click', (e) => {
 
-
-            // console.log('funciono')
             if (e.target.nodeName === 'BUTTON') {
 
                 this.contadorTurnos++
