@@ -13,7 +13,7 @@ class MainMenu {
         this.logout = document.createElement('img')
         this.button1 = document.createElement('button')
         this.button2 = document.createElement('button')
-        this.exit = document.createElement('button')
+
         this.sound = document.createElement('button')
         this.speaker = document.createElement('div')
         this.imageUn = document.createElement('img');
@@ -24,8 +24,10 @@ class MainMenu {
         this.button3 = document.createElement('button')
         this.TextBox = document.createElement('input')
         this.button4= document.createElement('button')
-
+        this.button5=  document.createElement('button')
+        this.button6=  document.createElement('button')
         this.search = 'random'
+        this.state = 'public'
     }
 
     CallMenu(){
@@ -71,10 +73,7 @@ class MainMenu {
         // this.button2.setAttribute('onclick','joinGame()');
         this.button2.innerHTML="UNIRSE A PARTIDA";
     
-        this.exit.setAttribute('class','exit');
-        this.exit.setAttribute('id','exit_b');
-        this.exit.setAttribute('onclick','exit()');
-        this.exit.innerHTML="SALIR";
+
 
         this.sound.setAttribute('class','sound');
         this.sound.setAttribute('id','mute_b');
@@ -114,6 +113,14 @@ class MainMenu {
         this.button4.setAttribute('class','button4');
         this.button4.setAttribute('id','joinGame');
         this.button4.innerHTML="UNIRSE";
+
+        this.button5.setAttribute('class','button5');
+        this.button5.setAttribute('id','publicaGame');
+        this.button5.innerHTML="PUBLICA";
+
+        this.button6.setAttribute('class','button6');
+        this.button6.setAttribute('id','privadaGame');
+        this.button6.innerHTML="PRIVADA";
     }
     
     Keydowns(){
@@ -147,7 +154,6 @@ class MainMenu {
         this.d1.appendChild(this.user)
         this.d2.appendChild(this.button1)
         this.d3.appendChild(this.button2)
-        this.d3.appendChild(this.exit)
         this.d3.appendChild(this.sound)
         this.d3.appendChild(this.info)
         this.sound.appendChild(this.speaker)
@@ -165,9 +171,12 @@ class MainMenu {
             this.menu.innerHTML=''
             this.RenderJoinScrean()
         })
-        this.button3.addEventListener('click',()=>{
-            this.search = 'random'
-         })
+        this.button1.addEventListener('click',()=>{
+            this.d2.innerHTML =''
+            this.d3.innerHTML =''
+            this.menu.innerHTML=''
+            this.RenderCreateScrean()
+        })
     }
     RenderJoinScrean(){
         this.menu.appendChild(this.d1)
@@ -181,7 +190,6 @@ class MainMenu {
         this.d2.appendChild(this.button3)
         this.d3.appendChild(this.TextBox)
         this.d3.appendChild(this.button4)
-        this.d3.appendChild(this.exit)
         this.d3.appendChild(this.sound)
         this.d3.appendChild(this.info)
         this.sound.appendChild(this.speaker)
@@ -189,10 +197,46 @@ class MainMenu {
         this.info.appendChild(this.infor)
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
+        this.KeyDawnJoinScrean()
     }
-
-  
-   
-        
-    
+    RenderCreateScrean(){
+        this.menu.appendChild(this.d1)
+        this.menu.appendChild(this.d2)
+        this.menu.appendChild(this.d3)
+        this.menu.appendChild(this.musicaF)
+        this.d1.appendChild(this.logo)
+        this.d1.appendChild(this.chlanguaje)
+        this.d1.appendChild(this.logout)
+        this.d1.appendChild(this.user)
+        this.d2.appendChild(this.button5)
+        this.d3.appendChild(this.button6)
+        this.d3.appendChild(this.sound)
+        this.d3.appendChild(this.info)
+        this.sound.appendChild(this.speaker)
+        this.speaker.appendChild(this.imageUn)
+        this.info.appendChild(this.infor)
+        this.musicaF.appendChild(this.musica)
+        document.getElementById('container-father').appendChild(this.menu)
+        this.KeyDawnCreateScrean()
+    }
+    KeyDawnJoinScrean(){
+    document.addEventListener('keydown', (e)=>{
+         if (e.key==='f'|| e.key==='F') {
+            document.getElementById("randomGame").click()
+         } if(e.key==='Shift') {
+             document.getElementById("textbox2").select()
+         }if(e.key==='Enter'){
+            document.getElementById("joinGame").click()
+         }
+     })
+     }
+     
+     KeyDawnCreateScrean(){
+        document.addEventListener('keydown', (e)=>{
+             if (e.key==='f'|| e.key==='F') {
+                document.getElementById("publicaGame").click()
+             } if(e.key==='j'|| e.key==='J') {
+                 document.getElementById("privadaGame").click()
+         }})
+         }   
 }

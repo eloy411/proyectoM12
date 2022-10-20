@@ -44,26 +44,46 @@ class clsCasilla {
         }
 
         else if (this.x < 72 && this.x > 4) {
+            
             var contenidocas = document.createElement("h1")
-
+            contenidocas.setAttribute("class", "valormov")
+            var numerodecasilla = document.createElement("h1")
+            numerodecasilla.setAttribute("class","numerox")
             contenidocas.textContent = this.randomList[this.randomCount]
+            numerodecasilla.textContent = this.x
             this.randomCount++
             casilla.appendChild(contenidocas)
+            casilla.appendChild(numerodecasilla)
             // this.SpecialCasillas(casilla);
         } else if (this.x >= 0 && this.x <= 4) {
             var contenidocas = document.createElement("h1")
+            contenidocas.setAttribute("class", "valormov")
+            var numerodecasilla = document.createElement("h1")
+            numerodecasilla.setAttribute("class","numerox")
             contenidocas.textContent = 1
+            numerodecasilla.textContent = this.x
             casilla.appendChild(contenidocas)
+            casilla.appendChild(numerodecasilla)
         }
         else if (this.x == 74) {
             var contenidocas = document.createElement("h1")
+            contenidocas.setAttribute("class", "valormov")
+            var numerodecasilla = document.createElement("h1")
+            numerodecasilla.setAttribute("class","numerox")
             contenidocas.textContent = 2
+            numerodecasilla.textContent = this.x
             casilla.appendChild(contenidocas)
+            casilla.appendChild(numerodecasilla)
         }
         else if (this.x > 71 && this.x < 74 || this.x > 75) {
             var contenidocas = document.createElement("h1")
+            contenidocas.setAttribute("class", "valormov")
+            var numerodecasilla = document.createElement("h1")
+            numerodecasilla.setAttribute("class","numerox")
+            numerodecasilla.textContent = this.x
             contenidocas.textContent = 1
             casilla.appendChild(contenidocas)
+            casilla.appendChild(numerodecasilla)
         }
 
 

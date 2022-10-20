@@ -196,6 +196,30 @@ div.menu{
     position: absolute;
     margin-top: 120px;
 }
+.button5{
+    box-sizing: border-box;
+    width: 336px;
+    height: 94px;
+    background: #FFFFFF;
+    border: 8px solid #000000;
+    box-shadow: 0px 4px 16px 8px #47DFF0;
+    border-radius: 90px;
+    margin-top: 15vh;
+    font-weight:bold;
+    font-size: 30px;
+}
+.button6{
+    box-sizing: border-box;
+    width: 336px;
+    height: 94px;
+    background: #FFFFFF;
+    border: 8px solid #000000;
+    box-shadow: 0px 4px 16px 8px #47DFF0;
+    border-radius: 90px;
+    margin-bottom: 8vh;
+    font-weight:bold;
+    font-size: 30px;
+}
 .textbox2{
     box-sizing: border-box;
     width: 336px;
@@ -378,6 +402,22 @@ div.waitingmain{
     border-radius: 40px;
     justify-content: center;
     align-items: center;
+}
+.valormov{
+    color: transparent;
+    position: absolute;
+}
+.numerox{
+    width: 7%;
+    height: 100%;
+    margin: 10px 10px 10px 10px;
+    color: black;
+    text-align: center;
+    display: flex;
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+    /* position: absolute; */
 }
 
 .destroy-casilla{

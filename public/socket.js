@@ -1,5 +1,5 @@
 class Socket {
-    constructor(menu, form, waiting, board, casilla, personaje, pregunta, finales, sonido) {
+    constructor(menu, form, waiting, board, casilla, personaje, pregunta, mensajes, sonido) {
 
         /**CLASES */
         this.form = form
@@ -9,7 +9,7 @@ class Socket {
         this.casilla = casilla
         this.personaje = personaje
         this.pregunta = pregunta
-        this.finales = finales
+        this.mensajes = mensajes
 
         this.sonido = sonido
 
@@ -36,6 +36,8 @@ class Socket {
     connect() {
         this.socket = io();
 
+        this.socket.emit('comprobacion', { "name": sessionStorage.getItem('name') })
+
         this.invidencia = sessionStorage.getItem('invidencia') === 'true' ? true : false
         this.turn = this.invidencia
 
@@ -46,8 +48,18 @@ class Socket {
     /**SOCKETS LISTENERS */
     escuchas() {
 
+        this.socket.on('denegado', (dato) => {
+
+            this.mensajes.renderError(dato.message)
+            document.getElementById("textbox").value = ""
+            setTimeout(() => { this.mensajes.removeMensaje() }, [5000])
+        })
+
         this.socket.on('confirmacion', (dato) => {
             console.log(dato)
+            this.form.father.innerHTML = ""
+
+            this.form.formulario.classList.remove('formulario')
             this.menu.CallMenu()
         })
 
@@ -99,7 +111,7 @@ class Socket {
 
         this.socket.on('change-pista', () => {
 
-
+            speechSynthesis.cancel()
             this.turn = !this.turn
 
 
@@ -117,23 +129,32 @@ class Socket {
 
 
             this.personaje.movimiento(data)
-            this.finales.renderMensaje(data)
 
-            setTimeout(() => { this.finales.removeMensaje() }, [4000])
+            if(data){
+                this.sonido.sonidoCorrecto()
+            }else{
+                this.sonido.sonidoIncorrecto()
+            }
+            this.mensajes.renderMensaje(data)
+
+            setTimeout(() => { this.mensajes.removeMensaje() }, [4000])
 
             /**SPECIAL TABLE SQUARES */
 
             if (this.personaje.trampa === 2) {
 
+                this.sonido.sonidoLaberinto()
                 speechSynthesis.cancel()
                 this.sonido.renderSound('Has caido en el laberinto, penalización de 2 casillas destruidas')
                 this.trampa = true
                 this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
 
-                for (let i = 0; i < 2; i++) {
-                    this.destroySquare()
-
+                if(this.turn){
+                    for (let i = 0; i < 2; i++) {
+                        this.destroySquare()
+    
+                    }
                 }
 
                 setTimeout(() => { this.personaje.movimientoEspacial() }, [4000])
@@ -143,6 +164,7 @@ class Socket {
 
             if (this.personaje.trampa === 4) {
 
+                this.sonido.sonidoCarcel()
                 speechSynthesis.cancel()
                 this.sonido.renderSound('Has caido en la carcel, penalización de 4 casillas destruidas')
 
@@ -150,20 +172,24 @@ class Socket {
                 this.personaje.casilla = document.getElementById(`casilla-x-${this.personaje.numCasilla + 1}`)
                 this.personaje.numCasilla++
 
-                for (let i = 0; i < 4; i++) {
-                    this.destroySquare()
-
+                if(this.turn){
+                    for (let i = 0; i < 4; i++) {
+                        this.destroySquare()
+    
+                    }
                 }
+                
 
                 setTimeout(() => { this.personaje.movimientoEspacial() }, [4000])
             }
 
             if (this.personaje.trampa === 666) {
 
+                this.sonido.sonidoMuerte()
                 speechSynthesis.cancel()
                 this.sonido.renderSound('Has muerto colegui MUAjajajaj')
 
-                this.finales.renderFinal(false)
+                this.mensajes.renderFinal(false)
 
                 setTimeout(() => { this.reloadGame() }, [10000])
             }
@@ -173,20 +199,20 @@ class Socket {
             if (this.personaje.numCasilla < this.casillaDestruida) {/**LOST */
 
                 speechSynthesis.cancel()
-
+                this.sonido.sonidoGameover()
                 this.sonido.renderSound('HAS     MUERTO')
 
-                this.finales.renderFinal(false)
+                this.mensajes.renderFinal(false)
 
                 setTimeout(() => { this.reloadGame() }, [10000])
 
             } else if (this.personaje.numCasilla >= 78) {/**WIN */
 
                 speechSynthesis.cancel()
-
+                this.sonido.sonidoWin()
                 this.sonido.renderSound('ganassste weeeey')
 
-                this.finales.renderFinal(true)
+                this.mensajes.renderFinal(true)
 
                 setTimeout(() => { this.reloadGame() }, [10000])
             }
@@ -223,19 +249,17 @@ class Socket {
 
         this.socket.on('casilla-destruida', () => {
 
-            if (!this.trampa) {
-                this.sonido.renderSound(`casilla numero ${this.casillaDestruida} destruida JAJAJAJ`)
-            }
 
+            this.sonido.sonidoCasilla()
             this.casilla.destroyCasilla(this.casillaDestruida)
             this.contadorTurnos = 0
             this.casillaDestruida++
-            
-            if(this.casillaDestruida >= this.personaje.numCasilla){
+
+            if (this.casillaDestruida >= this.personaje.numCasilla) {
                 speechSynthesis.cancel()
                 this.sonido.renderSound('HAS     MUERTO jujujajajajajaja ja ja ja a a o')
-                this.finales.renderFinal(false)
-                setTimeout(()=>{this.reloadGame()},[10000])
+                this.mensajes.renderFinal(false)
+                setTimeout(() => { this.reloadGame() }, [10000])
             }
         })
 
@@ -245,7 +269,7 @@ class Socket {
     /**METHODS */
 
     createRoom() {
-        this.socket.emit('createRoom', { "name": sessionStorage.getItem('name'), "invidencia": sessionStorage.getItem('invidencia') })
+        this.socket.emit('createRoom', { "name": sessionStorage.getItem('name'), "invidencia": sessionStorage.getItem('invidencia'), "state": this.menu.state })
     }
 
     searchRoom() {
@@ -284,9 +308,6 @@ class Socket {
 
             sessionStorage.setItem('name', this.form.cajaTextNombres.value)
 
-            this.form.father.innerHTML = ""
-
-            this.form.formulario.classList.remove('formulario')
 
             this.connect()
 
@@ -296,22 +317,25 @@ class Socket {
 
     controlMenu() {
 
-        this.menu.button1.addEventListener('click', () => {
-
-            this.createRoom()
-
-        })
 
         this.menu.button3.addEventListener('click', () => {
-            this.search="random"
+            this.search = "random"
             this.searchRoom()
 
         })
         this.menu.button4.addEventListener('click', () => {
-            this.search=this.menu.TextBox.value
-
-            console.log(this.search)
+            this.search = this.menu.TextBox.value
             this.searchRoom()
+
+        })
+        this.menu.button5.addEventListener('click', () => {
+            this.menu.state = 'public'
+            this.createRoom()
+
+        })
+        this.menu.button6.addEventListener('click', () => {
+            this.menu.state = 'private'
+            this.createRoom()
 
         })
 

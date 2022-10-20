@@ -53,9 +53,21 @@ class Finales {
 
     }
 
+    renderError(message){
+            speechSynthesis.cancel()
+            this.sonido.renderSound(`${message}, introduzca otro nombre`)
+            this.mensajePantalla.classList.add('mensaje-incorrecto')
+            this.mensajePantallaText.innerText = message
+            this.mensajePantalla.appendChild(this.mensajePantallaText)
+            this.mensajePantalla.style.marginBottom = '30%'
+            this.container.appendChild(this.mensajePantalla)
+
+    }
+
     removeMensaje(){
         document.getElementById('mensaje-pantalla').classList.remove('mensaje-correcto')
         document.getElementById('mensaje-pantalla').classList.remove('mensaje-incorrecto')
         document.getElementById('mensaje-pantalla').remove()
     }
+
 }

@@ -35,7 +35,11 @@ app.use(require('./routes/admin.routes'))
 
 
 
-connection(io)
+// const response = async UsersConnected.find({name:name})
+// if(!response){
+    connection(io)
+// }
+
 
 
 

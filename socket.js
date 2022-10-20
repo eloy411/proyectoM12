@@ -2,23 +2,43 @@ const Preguntas = require('./models/preguntas')
 
 Socket = {}
 
+
 Socket.connection = (io) => {
 
    const rooms = []
+   const users = []
 
 
    io.on('connection', (socket) => {
 
       console.log(socket.id)
 
-      socket.emit('confirmacion', 'conectado')
+      socket.on('comprobacion', (data) => {
+         console.log(data.name)
+         var existencia = false
+         console.log(users)
+
+         for (let i = 0; i < users.length; i++) {
+            if (users[i][0] === data.name) {
+               existencia = true
+               io.to(socket.id).emit('denegado', { "message": 'ya existe un usuario con tu nombre' })
+               i = users.length
+            }
+         }
+
+         if (!existencia) {
+            users.push([data.name, socket.id])
+            socket.emit('confirmacion', 'conectado')
+         }
+      })
+
 
       /**CREAR LA ROOM */
       socket.on('createRoom', (data) => {
 
          const nameRoom = data.name;
 
-         rooms.push([nameRoom, [socket.id, data.invidencia]])
+         rooms.push([nameRoom, [socket.id, data.invidencia, data.state]])
 
 
          socket.join(nameRoom)
@@ -49,7 +69,7 @@ Socket.connection = (io) => {
 
             for (let i = 0; i < rooms.length; i++) {
 
-               if (rooms[i].length === 2 && rooms[i][1][1] !== data.invidencia) {
+               if (rooms[i].length === 2 && rooms[i][1][1] !== data.invidencia && rooms[i][1][2] === 'public') {
 
                   socket.join(rooms[i][0])
                   rooms[i].push([socket.id, data.invidencia])
@@ -103,29 +123,29 @@ Socket.connection = (io) => {
          const response = await Preguntas.find()
 
          randomPreguntaList = []
-         
-         while(randomPreguntaList.length<response.length){
 
-               let num = Math.round(Math.random() * (response.length-1))
-               if(!randomPreguntaList.includes(num)){
-                  randomPreguntaList.push(num)
-               }
+         while (randomPreguntaList.length < response.length) {
+
+            let num = Math.round(Math.random() * (response.length - 1))
+            if (!randomPreguntaList.includes(num)) {
+               randomPreguntaList.push(num)
+            }
 
          }
-         
+
          dato = {
             "pregunta": response[randomPreguntaList[0]],
             "lista": randomPreguntaList
          }
 
-         
+
          io.to(data.room).emit('send-pregunta', dato)
       })
 
       /**CHANGE PISTA */
 
       socket.on('pista', (data) => {
-         
+
          io.to(data.room).emit('change-pista')
       })
 
@@ -137,13 +157,13 @@ Socket.connection = (io) => {
          const response = await Preguntas.find()
 
          indice = parseInt(data.listRandom.split(',')[data.numPregunta])
-         
+
          dato = {
             "pregunta": response[indice],
             "id": indice
          }
-         
-         io.to(data.room).emit('new-question',dato)
+
+         io.to(data.room).emit('new-question', dato)
       })
 
 
@@ -164,6 +184,7 @@ Socket.connection = (io) => {
 
       /**DESCONEXIÓN */
       socket.on("disconnect", () => {
+
          console.log(`${socket.id} se ha desconectado`)
          for (let i = 0; i < rooms.length; i++) {
 
@@ -178,6 +199,12 @@ Socket.connection = (io) => {
                rooms.splice(i, 1)
             }
             console.log(rooms)
+         }
+
+         for (let i = 0; i < users.length; i++) {
+            if (users[i][1] === socket.id) {
+               users.splice(i, 1)
+            }
          }
       });
    })
