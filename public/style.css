@@ -557,7 +557,7 @@ div.waitingmain{
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 60;
+    z-index: 80;
     
 }
 
@@ -586,11 +586,20 @@ div.waitingmain{
     100% { background-color: #5de7ff;color:#ffeded}
   }
 
+ 
 
   .mensaje-incorrecto{
+    display: flex;
+    flex-direction: column;
     animation: mensIn 4s ;
+    position:absolute;
+    z-index: 78;
   }
 
+  .numero-mensaje-incorrecto{
+    font-size:  6rem;
+    animation: mensIn 4s ;
+  }
   @keyframes mensIn {
 
     0% {color: #ffffff00;}
@@ -598,7 +607,15 @@ div.waitingmain{
   }
 
   .mensaje-correcto{
+    display: flex;
+    flex-direction: column;
     animation: mensCorr 4s ;
+    position:absolute;
+    z-index: 78;
+  }
+  .numero-mensaje-correcto{
+    font-size:  6rem;
+    animation: mensCorr;
   }
 
   @keyframes mensCorr {
@@ -606,3 +623,5 @@ div.waitingmain{
     0% {color: #ffffff00;}
     100% {color:#01fe3c}
   }
+
+ 

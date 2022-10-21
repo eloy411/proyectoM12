@@ -13,6 +13,8 @@ class Preguntas {
         this.sonido7 = new Sound()
         this.sonido8 = new Sound()
         this.sonido9 = new Sound()
+        this.sonido10 = new Sound()
+        this.sonido11 = new Sound()
         this.numPregunta = 0
         this.respuestaCorrecta = ''
 
@@ -129,7 +131,7 @@ class Preguntas {
     }
 
     renderPista(pregunta, turn, invidencia, numCasilla) {
-        
+
         if (turn) {
             this.contenedorBotones.innerHTML = ''
 
@@ -146,15 +148,23 @@ class Preguntas {
             // console.log(this.respuestasRandom)
 
             this.respuestasArray[this.respuestasRandom[0]].id = 'res1'
-            this.respuestasArray[this.respuestasRandom[1]].id= 'res2'
+            this.respuestasArray[this.respuestasRandom[1]].id = 'res2'
             this.respuestasArray[this.respuestasRandom[2]].id = 'res3'
             this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[0]])
             this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[1]])
             this.contenedorBotones.append(this.respuestasArray[this.respuestasRandom[2]])
 
             if (invidencia) {
-                this.sonido1.renderSound(`bien, estas en la casilla numero ${numCasilla},
+                
+                if (numCasilla != undefined) {
+                    speechSynthesis.cancel()
+                    this.sonido1.renderSound(`bien, estas en la casilla numero ${numCasilla},
                 la pregunta es...${pregunta.pregunta}`)
+                } else {
+                    speechSynthesis.cancel()
+                    this.sonido11.renderSound(`tu compañero se ha equivocado, salvanos!, la pregunta es...${pregunta.pregunta}`)
+                }
+
                 // this.sonido.renderSound('   ')
                 this.sonido2.renderSound('Respuesta 1')
                 this.sonido3.renderSound(this.respuestasArray[this.respuestasRandom[0]].textContent)
@@ -175,22 +185,26 @@ class Preguntas {
             this.contenedorBotones.innerHTML = '<h1>Esperando que el compañero responda</h1>'
             this.imagenPregunta.setAttribute('src', 'https://img.freepik.com/vector-gratis/ilustracion-icono-dibujos-animados-temporizador-cronometro_138676-2420.jpg?w=2000');
             console.log('esperando que el compañero responda')
+            if (invidencia) {
+                speechSynthesis.cancel()
+                this.sonido10.renderSound('esperando a que el compañero responda')
+            }
         }
 
-        document.addEventListener('keydown',this.keyDown)
+        document.addEventListener('keydown', this.keyDown)
     }
 
 
-    keyDown(e){
-        if(e.key == '1'){
+    keyDown(e) {
+        if (e.key == '1') {
             document.getElementById('res1').click()
         }
-        if(e.key == '2'){
+        if (e.key == '2') {
             document.getElementById('res2').click()
         }
-        if(e.key == '3'){
+        if (e.key == '3') {
             document.getElementById('res3').click()
         }
     }
-   
+
 }

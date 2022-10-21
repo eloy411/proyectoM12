@@ -234,10 +234,22 @@ class clsCasilla {
 
     destroyCasilla(num) {
 
-        let casilla = document.getElementById(`casilla-x-${num}`)
+        try {
+            let casilla = document.getElementById(`casilla-x-${num}`)
         let numerodecasilla = document.getElementById(`numero-${num}`)
         casilla.classList.add('destroy-casilla')
         numerodecasilla.classList.add('destroy-num')
+            
+        } catch (error) {
+            
+            let casilla = document.getElementById(`casilla-x-${num}`)
+            casilla.classList.add('destroy-casilla')
+            setTimeout(()=>{
+                casilla.innerHTML=""
+            },[3000])
+            
+        }
+        
 
     }
 

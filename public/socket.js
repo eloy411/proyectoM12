@@ -143,12 +143,29 @@ class Socket {
 
             this.personaje.movimiento(data)
 
+            /**WIN & LOST METHODS */
+
+            if (this.personaje.numCasilla < this.casillaDestruida) {/**LOST */
+
+                speechSynthesis.cancel()
+                this.sonido.sonidoGameover()
+                this.sonido.renderSound('HAS     MUERTO')
+
+                this.mensajes.renderFinal(false)
+
+                setTimeout(() => { this.reloadGame() }, [10000])
+
+            } else if (this.personaje.numCasilla >= 78) {/**WIN */
+
+                this.win() 
+            }
+
             if(data){
                 this.sonido.sonidoCorrecto()
             }else{
                 this.sonido.sonidoIncorrecto()
             }
-            this.mensajes.renderMensaje(data)
+            this.mensajes.renderMensaje(data, this.personaje.valorCasilla)
 
             setTimeout(() => { this.mensajes.removeMensaje() }, [4000])
 
@@ -207,29 +224,7 @@ class Socket {
                 setTimeout(() => { this.reloadGame() }, [10000])
             }
 
-            /**WIN & LOST METHODS */
-
-            if (this.personaje.numCasilla < this.casillaDestruida) {/**LOST */
-
-                speechSynthesis.cancel()
-                this.sonido.sonidoGameover()
-                this.sonido.renderSound('HAS     MUERTO')
-
-                this.mensajes.renderFinal(false)
-
-                setTimeout(() => { this.reloadGame() }, [10000])
-
-            } else if (this.personaje.numCasilla >= 78) {/**WIN */
-
-                speechSynthesis.cancel()
-                this.sonido.sonidoWin()
-                this.sonido.renderSound('ganassste weeeey')
-
-                this.mensajes.renderFinal(true)
-
-                setTimeout(() => { this.reloadGame() }, [10000])
-            }
-
+            
         /**--------------------------------------- */
         })
 
@@ -280,12 +275,23 @@ class Socket {
 
             if (this.casillaDestruida >= this.personaje.numCasilla) {
                 speechSynthesis.cancel()
+                this.sonido.sonidoGameover()
                 this.sonido.renderSound('HAS     MUERTO jujujajajajajaja ja ja ja a a o')
                 this.mensajes.renderFinal(false)
                 setTimeout(() => { this.reloadGame() }, [10000])
             }
 
             this.casillaDestruida++
+        })
+
+        this.socket.on('winners',()=>{
+            speechSynthesis.cancel()
+                this.sonido.sonidoWin()
+                this.sonido.renderSound('ganassste weeeey')
+
+                this.mensajes.renderFinal(true)
+
+                setTimeout(() => { this.reloadGame() }, [10000])
         })
 
     }
@@ -323,6 +329,10 @@ class Socket {
         this.pregunta.attributes(this.preguntaNueva)
         this.pregunta.render()
         this.pregunta.renderPista(this.preguntaNueva, this.turn, this.invidencia, this.personaje.numCasilla)
+    }
+
+    win(){
+        this.socket.emit('win',{"room":sessionStorage.getItem('room')})
     }
 
     /**CONTROL COMMANDS */

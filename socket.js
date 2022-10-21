@@ -183,6 +183,12 @@ Socket.connection = (io) => {
          io.to(data.room).emit('casilla-destruida')
       })
 
+
+
+      socket.on('win',(data)=>{
+         io.to(data.room).emit('winners')
+      })
+      
       /**DESCONEXIÓN */
       socket.on("disconnect", () => {
 
