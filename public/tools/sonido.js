@@ -8,6 +8,11 @@ class Sound{
         this.mensaje1.pitch = 1;
     }
 
+    sonidoInicioP(){
+        var sonido_inicioP = new Audio("audio/SONIDO_INICIO_PARTIDA.mp3");
+        sonido_inicioP.play();
+    }
+    
     renderSound(text){
 
         this.mensaje1.text = text

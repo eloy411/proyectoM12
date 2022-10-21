@@ -14,9 +14,10 @@ Socket.connection = (io) => {
       console.log(socket.id)
 
       socket.on('comprobacion', (data) => {
-         console.log(data.name)
+         
          var existencia = false
-         console.log(users)
+       
+
 
          for (let i = 0; i < users.length; i++) {
             if (users[i][0] === data.name) {

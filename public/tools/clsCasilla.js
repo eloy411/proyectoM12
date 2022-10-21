@@ -49,6 +49,7 @@ class clsCasilla {
             contenidocas.setAttribute("class", "valormov")
             var numerodecasilla = document.createElement("h1")
             numerodecasilla.setAttribute("class","numerox")
+            numerodecasilla.id = `numero-${this.x}`
             contenidocas.textContent = this.randomList[this.randomCount]
             numerodecasilla.textContent = this.x
             this.randomCount++
@@ -60,6 +61,7 @@ class clsCasilla {
             contenidocas.setAttribute("class", "valormov")
             var numerodecasilla = document.createElement("h1")
             numerodecasilla.setAttribute("class","numerox")
+            numerodecasilla.id = `numero-${this.x}`
             contenidocas.textContent = 1
             numerodecasilla.textContent = this.x
             casilla.appendChild(contenidocas)
@@ -70,6 +72,7 @@ class clsCasilla {
             contenidocas.setAttribute("class", "valormov")
             var numerodecasilla = document.createElement("h1")
             numerodecasilla.setAttribute("class","numerox")
+            numerodecasilla.id = `numero-${this.x}`
             contenidocas.textContent = 2
             numerodecasilla.textContent = this.x
             casilla.appendChild(contenidocas)
@@ -80,6 +83,7 @@ class clsCasilla {
             contenidocas.setAttribute("class", "valormov")
             var numerodecasilla = document.createElement("h1")
             numerodecasilla.setAttribute("class","numerox")
+            numerodecasilla.id = `numero-${this.x}`
             numerodecasilla.textContent = this.x
             contenidocas.textContent = 1
             casilla.appendChild(contenidocas)
@@ -231,8 +235,9 @@ class clsCasilla {
     destroyCasilla(num) {
 
         let casilla = document.getElementById(`casilla-x-${num}`)
-
+        let numerodecasilla = document.getElementById(`numero-${num}`)
         casilla.classList.add('destroy-casilla')
+        numerodecasilla.classList.add('destroy-num')
 
     }
 

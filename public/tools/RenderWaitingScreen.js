@@ -69,5 +69,6 @@ class MainWaitings {
         this.waitScreen.appendChild(this.dot3)
         this.waitScreen.appendChild(this.botonCancelar)
         document.getElementById('container-father').appendChild(this.waitScreen)
+        this.sonido.renderSound('Esperando a un jugador')
     }
 }

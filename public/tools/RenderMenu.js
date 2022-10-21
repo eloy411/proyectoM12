@@ -198,6 +198,7 @@ class MainMenu {
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
         this.KeyDawnJoinScrean()
+        this.sonido.renderSound('Ahora estas en la pantalla de unirse a partida, pulsa F si quieres unirte a una partida random, para unirte a una partida privada pulsa shift, escribe el nombre del creador de la sala y dale a enter')
     }
     RenderCreateScrean(){
         this.menu.appendChild(this.d1)
@@ -218,6 +219,7 @@ class MainMenu {
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
         this.KeyDawnCreateScrean()
+        this.sonido.renderSound('Ahora estas en la pantalla de crear partida, pulsa F si quieres crear una partida publica, si quieres crear una partida privada pulsa j')
     }
     KeyDawnJoinScrean(){
     document.addEventListener('keydown', (e)=>{

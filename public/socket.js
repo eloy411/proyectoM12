@@ -48,12 +48,16 @@ class Socket {
     /**SOCKETS LISTENERS */
     escuchas() {
 
+        /**--------------------------------------- */
+
         this.socket.on('denegado', (dato) => {
 
             this.mensajes.renderError(dato.message)
             document.getElementById("textbox").value = ""
             setTimeout(() => { this.mensajes.removeMensaje() }, [5000])
         })
+
+        /**--------------------------------------- */
 
         this.socket.on('confirmacion', (dato) => {
             console.log(dato)
@@ -63,6 +67,7 @@ class Socket {
             this.menu.CallMenu()
         })
 
+        /**--------------------------------------- */
 
 
         this.socket.on('createdRoom', (dato) => {
@@ -71,7 +76,7 @@ class Socket {
 
         })
 
-
+        /**--------------------------------------- */
 
         this.socket.on('foundRoom', (dato) => {
 
@@ -88,12 +93,15 @@ class Socket {
             this.personaje.Call()
             this.personaje.movimiento(true)
 
+            this.sonido.sonidoInicioP()
             /**SEND SOCKET MESSAGE TO START */
             if (this.turn) {
                 this.startGame()
             }
 
         })
+
+        /**--------------------------------------- */
 
         this.socket.on('send-pregunta', (data) => {
 
@@ -109,6 +117,8 @@ class Socket {
 
         })
 
+        /**--------------------------------------- */
+
         this.socket.on('change-pista', () => {
 
             speechSynthesis.cancel()
@@ -123,10 +133,13 @@ class Socket {
 
         })
 
+        /**--------------------------------------- */
+
         this.socket.on('movimiento', (data) => {
 
-            speechSynthesis.cancel()
+            
 
+            speechSynthesis.cancel()
 
             this.personaje.movimiento(data)
 
@@ -217,7 +230,7 @@ class Socket {
                 setTimeout(() => { this.reloadGame() }, [10000])
             }
 
-
+        /**--------------------------------------- */
         })
 
         this.socket.on('fellow-disconnected', (data) => {
@@ -226,7 +239,11 @@ class Socket {
         })
 
 
+        /**--------------------------------------- */
+
         this.socket.on('new-question', (data) => {
+
+            this.contadorTurnos++
 
             this.contadorPregunta++
 
@@ -247,13 +264,19 @@ class Socket {
 
         })
 
+        /**--------------------------------------- */
         this.socket.on('casilla-destruida', () => {
 
+            console.log(`casilla destruida = ${this.casillaDestruida}`)
+            console.log(`casilla actual = ${this.personaje.numCasilla}`)
 
             this.sonido.sonidoCasilla()
             this.casilla.destroyCasilla(this.casillaDestruida)
             this.contadorTurnos = 0
-            this.casillaDestruida++
+            
+
+            // document.getElementById(`numero-${this.casillaDestruida}`).classList.add('destroy-casilla')
+            console.log(this.personaje.numCasilla)
 
             if (this.casillaDestruida >= this.personaje.numCasilla) {
                 speechSynthesis.cancel()
@@ -261,6 +284,8 @@ class Socket {
                 this.mensajes.renderFinal(false)
                 setTimeout(() => { this.reloadGame() }, [10000])
             }
+
+            this.casillaDestruida++
         })
 
     }
@@ -352,15 +377,11 @@ class Socket {
 
             if (e.target.nodeName === 'BUTTON') {
 
-                this.contadorTurnos++
-
-                if (this.contadorTurnos >= 2) {
-                    this.destroySquare()
-                }
 
                 if (e.target.textContent === this.pregunta.respuestaCorrecta) {
                     this.contadorErrores = 0;
                     // this.turn = !this.turn
+                    
                     this.socket.emit('respuesta', { "response": true, "room": sessionStorage.getItem('room') })
                     this.changeQuestion()
                 } else {
@@ -373,8 +394,12 @@ class Socket {
 
                         this.socket.emit('respuesta', { "response": false, "room": sessionStorage.getItem('room') })
                         this.changeQuestion()
+                        
                     }
 
+                }
+                if (this.contadorTurnos >= 2) {
+                    this.destroySquare()
                 }
 
             }

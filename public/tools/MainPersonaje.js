@@ -36,6 +36,7 @@ class MainPersonaje {
                 this.numCasilla++
 
             }else{
+                
             if(condition){
                 this.casilla = document.getElementById(`casilla-x-${this.numCasilla+this.valorCasilla}`)
                 
