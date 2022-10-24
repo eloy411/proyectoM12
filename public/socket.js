@@ -141,6 +141,8 @@ class Socket {
 
             speechSynthesis.cancel()
 
+            this.mensajes.renderMensaje(data, this.personaje.valorCasilla)
+            
             this.personaje.movimiento(data)
 
             /**WIN & LOST METHODS */
@@ -165,7 +167,7 @@ class Socket {
             }else{
                 this.sonido.sonidoIncorrecto()
             }
-            this.mensajes.renderMensaje(data, this.personaje.valorCasilla)
+            
 
             setTimeout(() => { this.mensajes.removeMensaje() }, [4000])
 
