@@ -142,7 +142,7 @@ class Socket {
             speechSynthesis.cancel()
 
             this.mensajes.renderMensaje(data, this.personaje.valorCasilla)
-            
+
             this.personaje.movimiento(data)
 
             /**WIN & LOST METHODS */
@@ -344,6 +344,7 @@ class Socket {
         this.form.boton2.addEventListener("click", () => {
 
             sessionStorage.setItem('name', this.form.cajaTextNombres.value)
+            // sessionStorage.setItem('invidencia',this.)
 
 
             this.connect()

@@ -158,6 +158,11 @@ class formulario {
         this.RenderTextBox()  
         listenerbol=true
         document.addEventListener('keydown', this.SelectButon2);
+        if (this.opcionSi.checked == true){
+            sessionStorage.setItem('invidencia',true);
+          } else if(this.opcionNo.checked == true){
+            sessionStorage.setItem('invidencia',false)
+          }
     })
     }
     
