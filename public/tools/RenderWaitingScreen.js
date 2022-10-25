@@ -69,6 +69,9 @@ class MainWaitings {
         this.waitScreen.appendChild(this.dot3)
         this.waitScreen.appendChild(this.botonCancelar)
         document.getElementById('container-father').appendChild(this.waitScreen)
-        this.sonido.renderSound('Esperando a un jugador')
+        speechSynthesis.cancel()
+        this.sonido.renderSound('Esperando a un jugador, si lo desea recuerde que puede cancelar presionando la tecla c')
     }
+
+
 }

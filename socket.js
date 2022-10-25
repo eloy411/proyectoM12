@@ -83,7 +83,7 @@ Socket.connection = (io) => {
             }
 
             if (!coincidencia) {
-               console.log('no hay coincidencia')
+               io.to(socket.id).emit('not-conection')
             }
 
          } else {/**BUSCAR A ALGUIEN ESPECÍFICAMENTE */
@@ -110,7 +110,7 @@ Socket.connection = (io) => {
                }
             }
             if (!coincidencia) {
-               console.log('no hay coincidencia')
+               io.to(socket.id).emit('not-specific')
             }
 
          }
@@ -170,6 +170,7 @@ Socket.connection = (io) => {
 
 
       /**RESPUESTA */
+
       socket.on('respuesta', (data) => {
          console.log(data.response)
          console.log(data.room)
@@ -190,6 +191,7 @@ Socket.connection = (io) => {
       })
       
       /**DESCONEXIÓN */
+
       socket.on("disconnect", () => {
 
          console.log(`${socket.id} se ha desconectado`)

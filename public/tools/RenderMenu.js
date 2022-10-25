@@ -2,7 +2,7 @@ class MainMenu {
     constructor(sonido){
 
         this.sonido = sonido
-        // this.socket = socket
+     
         this.menu = document.createElement('div')
         this.d1 = document.createElement('div')
         this.d2 = document.createElement('div')
@@ -28,6 +28,9 @@ class MainMenu {
         this.button6=  document.createElement('button')
         this.search = 'random'
         this.state = 'public'
+
+
+        this.mensaje = ''
     }
 
     CallMenu(){
@@ -36,10 +39,14 @@ class MainMenu {
         this.Render();
         this.Keydowns();
         this.ListenerButton();
-        this.sonido.renderSound('pulsa F, para crear partida,o, Pulsa J, para unirte a una existente ')
+        speechSynthesis.cancel();
+        this.mensaje = 'pulsa F, para crear partida,o, Pulsa J, para unirte a una existente, pulse ,C, para salir, pulse ,M, para parar la música, si deseas repetir las instrucciones pulsa i'
+        this.sonido.renderSound(this.mensaje)
+
     }
 
     SetAtributes(){
+
         this.menu.setAttribute('class','menu');
         this.menu.setAttribute('id','menuOscar')
         this.d1.setAttribute('class','d1');
@@ -51,7 +58,7 @@ class MainMenu {
 
         this.chlanguaje.setAttribute('class','chlanguaje');
         this.chlanguaje.setAttribute('id','chLang_b');
-        this.chlanguaje.setAttribute('onclick','changeLan()');
+        
         this.chlanguaje.innerHTML="CAMBIAR IDIOMA";
 
         this.user.setAttribute('class','userName');
@@ -60,24 +67,26 @@ class MainMenu {
 
         this.logout.setAttribute('src','img/exit.png');
         this.logout.setAttribute('class','logout');
-        this.logout.setAttribute('onclick','logout()');
+        this.logout.id = 'logout'
+        
     
         this.button1.setAttribute('class','button1');
         this.button1.setAttribute('id','createGame_b');
-        // this.button1.setAttribute('onclick','createGame()');
+       
         this.button1.innerHTML="CREAR PARTIDA";
         
 
         this.button2.setAttribute('class','button2');
         this.button2.setAttribute('id','joinGame_b');
-        // this.button2.setAttribute('onclick','joinGame()');
+        
         this.button2.innerHTML="UNIRSE A PARTIDA";
     
 
 
         this.sound.setAttribute('class','sound');
         this.sound.setAttribute('id','mute_b');
-        this.sound.setAttribute('onclick','muteUnmute()');
+        this.sound.setAttribute('onclick','muteUnmute()')
+        
 
         this.speaker.setAttribute('id','contImg');
         this.speaker.setAttribute('class','speaker');
@@ -87,7 +96,7 @@ class MainMenu {
 
         this.info.setAttribute('class','info');
         this.info.setAttribute('id','info_b');
-        this.info.setAttribute('onclick','audio_Autoplay()');
+        
 
         this.infor.setAttribute('src','img/info.png');
         this.infor.setAttribute('class','infor');
@@ -125,14 +134,15 @@ class MainMenu {
     
     Keydowns(){
         document.addEventListener('keydown', (e)=>{
-            if (e.key==='f') {
+
+            if (e.key==='f' || e.key==='F') {
                 document.getElementById('createGame_b').click();
             } 
-            if(e.key==='j') {
+            if(e.key==='j' || e.key==='J') {
                 document.getElementById('joinGame_b').click();
             }
-            if(e.key==='c') {
-                document.getElementById('chLang_b').click();
+            if(e.key==='c' || e.key==='C') {
+                document.getElementById('logout').click();
             }
             if(e.key==='i') {
                 document.getElementById('info_b').click();
@@ -149,7 +159,7 @@ class MainMenu {
         this.menu.appendChild(this.d3)
         this.menu.appendChild(this.musicaF)
         this.d1.appendChild(this.logo)
-        this.d1.appendChild(this.chlanguaje)
+        // this.d1.appendChild(this.chlanguaje)
         this.d1.appendChild(this.logout)
         this.d1.appendChild(this.user)
         this.d2.appendChild(this.button1)
@@ -177,6 +187,11 @@ class MainMenu {
             this.menu.innerHTML=''
             this.RenderCreateScrean()
         })
+        this.info.addEventListener('click',()=>{
+            speechSynthesis.cancel()
+            this.sonido.renderSound(this.mensaje)
+        })
+        
     }
     RenderJoinScrean(){
         this.menu.appendChild(this.d1)
@@ -184,7 +199,7 @@ class MainMenu {
         this.menu.appendChild(this.d3)
         this.menu.appendChild(this.musicaF)
         this.d1.appendChild(this.logo)
-        this.d1.appendChild(this.chlanguaje)
+        // this.d1.appendChild(this.chlanguaje)
         this.d1.appendChild(this.logout)
         this.d1.appendChild(this.user)
         this.d2.appendChild(this.button3)
@@ -198,7 +213,9 @@ class MainMenu {
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
         this.KeyDawnJoinScrean()
-        this.sonido.renderSound('Ahora estas en la pantalla de unirse a partida, pulsa F si quieres unirte a una partida random, para unirte a una partida privada pulsa shift, escribe el nombre del creador de la sala y dale a enter')
+        speechSynthesis.cancel()
+        this.mensaje = 'Ahora estas en la pantalla de unirse a partida, pulsa F si quieres unirte a una partida random, para unirte a una partida privada pulsa Shift, escribe el nombre del creador de la sala y dale a enter'
+        this.sonido.renderSound(this.mensaje)
     }
     RenderCreateScrean(){
         this.menu.appendChild(this.d1)
@@ -206,7 +223,7 @@ class MainMenu {
         this.menu.appendChild(this.d3)
         this.menu.appendChild(this.musicaF)
         this.d1.appendChild(this.logo)
-        this.d1.appendChild(this.chlanguaje)
+        // this.d1.appendChild(this.chlanguaje)
         this.d1.appendChild(this.logout)
         this.d1.appendChild(this.user)
         this.d2.appendChild(this.button5)
@@ -219,8 +236,11 @@ class MainMenu {
         this.musicaF.appendChild(this.musica)
         document.getElementById('container-father').appendChild(this.menu)
         this.KeyDawnCreateScrean()
-        this.sonido.renderSound('Ahora estas en la pantalla de crear partida, pulsa F si quieres crear una partida publica, si quieres crear una partida privada pulsa j')
+        speechSynthesis.cancel()
+        this.mensaje = 'Ahora estas en la pantalla de crear partida, pulsa F si quieres crear una partida publica, si quieres crear una partida privada pulsa j'
+        this.sonido.renderSound(this.mensaje)
     }
+
     KeyDawnJoinScrean(){
     document.addEventListener('keydown', (e)=>{
          if (e.key==='f'|| e.key==='F') {

@@ -14,6 +14,7 @@ class Sound{
     }
     
     renderSound(text){
+        console.log('sonando')
 
         this.mensaje1.text = text
 
@@ -37,11 +38,13 @@ class Sound{
 
     sonidoCorrecto(){
         var sonido_Correcto = new Audio("audio/SONIDO_CORRECTO.mp3");
+        sonido_Correcto.volume = 0.5
         sonido_Correcto.play();
     }
 
     sonidoIncorrecto(){
         var sonido_Incorrecto = new Audio("audio/SONIDO_INCORRECTO.mp3");
+        sonido_Incorrecto.volume = 0.5
         sonido_Incorrecto.play();
     }
 

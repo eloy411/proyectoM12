@@ -43,7 +43,12 @@ class Finales {
 
         if (condition) {
             speechSynthesis.cancel()
-            this.sonido.renderSound(`respuesta cncorrecta,avanzas ${valor}`)
+            if(valor != 1){
+                this.sonido.renderSound(`respuesta correcta,avanzas ${valor} casillas`)
+            }else{
+                this.sonido.renderSound(`respuesta correcta,avanzas una casilla`)
+            }
+            
             this.mensajePantalla.classList.add('mensaje-correcto')
             this.mensajePantallaText.innerText = 'CORRECTO!'
             this.mensajePantalla.appendChild(this.mensajePantallaText)
@@ -52,7 +57,11 @@ class Finales {
 
         } else {
             speechSynthesis.cancel()
-            this.sonido.renderSound(`respuesta incorrecta,retrocedes ${valor}`)
+            if(valor != 1){
+                this.sonido.renderSound(`respuesta incorrecta,retrocedes ${valor} casillas`)
+            }else{
+                this.sonido.renderSound(`respuesta incorrecta,retrocedes una casilla`)
+            }
             this.mensajePantalla.classList.add('mensaje-incorrecto')
             this.mensajePantallaText.innerText = 'INCORRECTO.... :('
             this.mensajePantalla.appendChild(this.mensajePantallaText)
@@ -85,6 +94,11 @@ class Finales {
         document.getElementById('numero-mensaje').remove()
         document.getElementById('mensaje-pantalla').remove()
         
+        
+    }
+
+    removeMensajeError(){
+        document.getElementById('mensaje-pantalla').remove()
     }
 
 }

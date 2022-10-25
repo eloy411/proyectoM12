@@ -130,7 +130,8 @@ class Preguntas {
 
     }
 
-    renderPista(pregunta, turn, invidencia, numCasilla) {
+    renderPista(pregunta, turn, invidencia, numCasilla, error) {
+        console.log(error)
 
         if (turn) {
             this.contenedorBotones.innerHTML = ''
@@ -156,7 +157,7 @@ class Preguntas {
 
             if (invidencia) {
                 
-                if (numCasilla != undefined) {
+                if (error == 0) {
                     speechSynthesis.cancel()
                     this.sonido1.renderSound(`bien, estas en la casilla numero ${numCasilla},
                 la pregunta es...${pregunta.pregunta}`)
@@ -184,10 +185,13 @@ class Preguntas {
         } else {
             this.contenedorBotones.innerHTML = '<h1>Esperando que el compañero responda</h1>'
             this.imagenPregunta.setAttribute('src', 'https://img.freepik.com/vector-gratis/ilustracion-icono-dibujos-animados-temporizador-cronometro_138676-2420.jpg?w=2000');
-            console.log('esperando que el compañero responda')
-            if (invidencia) {
+            
+            if (invidencia && error == 1) {
                 speechSynthesis.cancel()
-                this.sonido10.renderSound('esperando a que el compañero responda')
+                this.sonido10.renderSound('oh!, te has equivocado, le toca a tu compañero')
+            }else if(invidencia && error == 0){
+                speechSynthesis.cancel()
+                this.sonido10.renderSound('Esperando que el compañero responda')
             }
         }
 

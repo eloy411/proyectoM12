@@ -43,6 +43,7 @@ class formulario {
         this.RenderQuestion();
         this.ExtraFunction();
 
+        speechSynthesis.cancel()
         this.sonido.renderSound('Bienvenido, si sufres invidencia, presiona F, en caso contrario pulsa J,  seguidamente presiona enter')
     }
 
